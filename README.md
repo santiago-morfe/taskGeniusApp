@@ -2,7 +2,7 @@
 
 Task Genius App es una aplicación diseñada para ayudarte a gestionar tus tareas de manera eficiente y recibir consejos útiles de un "genio" virtual. La aplicación está desplegada en Netlify y puedes verla funcionando en el siguiente enlace:
 
-[Task Genius App en Netlify](https://task-genius-app.netlify.app)
+[Task Genius App en Netlify](https://taskgeniusapp.netlify.app)
 
 ## Tecnologías utilizadas
 
