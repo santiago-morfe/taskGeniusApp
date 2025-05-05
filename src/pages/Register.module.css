@@ -1,0 +1,113 @@
+.registerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 1rem;
+  }
+  
+  .registerTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .registerForm {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.25rem;
+  }
+  
+  .formLabel {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+  }
+  
+  .formInput {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  
+  .formInput:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+  
+  .formInput::placeholder {
+    color: #9ca3af;
+  }
+  
+  .errorMessage {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .primaryButton {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #111827;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .primaryButton:hover {
+    background-color: #374151;
+  }
+  
+  .primaryButton:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+  }
+  
+  .secondaryButton {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: transparent;
+    color: #4b5563;
+    font-weight: 500;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+  }
+  
+  .secondaryButton:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 640px) {
+    .registerForm {
+      padding: 0 1rem;
+    }
+  }

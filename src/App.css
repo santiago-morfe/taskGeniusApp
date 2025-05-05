@@ -1,0 +1,62 @@
+/* reset.css */
+/* Elimina todos los márgenes, paddings y estilos por defecto */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    background-color: transparent;
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    border-style: none;
+    max-width: 100%;
+    display: block;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+    border: none;
+    background: none;
+}
+
+button,
+input {
+    overflow: visible;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
+    appearance: button;
+    cursor: pointer;
+}
+
+ul,
+ol {
+    list-style: none;
+}

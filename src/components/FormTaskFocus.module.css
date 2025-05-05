@@ -1,0 +1,228 @@
+.taskDetailContainer {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    animation: slideIn 0.3s ease;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .taskDetailTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .formGroup {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .formLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+  }
+  
+  .formInput,
+  .formTextarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background-color: white;
+  }
+  
+  .formInput:focus,
+  .formTextarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+  
+  .formInput:disabled,
+  .formTextarea:disabled {
+    background-color: #f9fafb;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .formTextarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .checkboxGroup {
+    margin-top: 16px;
+  }
+  
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.95rem;
+    color: #4b5563;
+  }
+  
+  .checkboxLabel span {
+    margin-left: 8px;
+  }
+  
+  .checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .checkbox:checked {
+    background-color: #6366f1;
+    border-color: #6366f1;
+  }
+  
+  .checkbox:checked::after {
+    content: '';
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    display: block;
+    margin-top: -2px;
+  }
+  
+  .checkbox:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .button {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 80px;
+  }
+  
+  .button:active {
+    transform: translateY(1px);
+  }
+  
+  .button:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  }
+  
+  .editButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .editButton:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+  }
+  
+  .deleteButton {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .deleteButton:hover {
+    background-color: #fecaca;
+    color: #991b1b;
+  }
+  
+  .closeButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .closeButton:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+  }
+  
+  .saveButton {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .saveButton:hover {
+    background-color: #059669;
+  }
+  
+  .cancelButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 640px) {
+    .taskDetailContainer {
+      padding: 16px;
+      border-radius: 8px;
+    }
+    
+    .taskDetailTitle {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+    
+    .buttonGroup {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .button {
+      width: 100%;
+    }
+  }

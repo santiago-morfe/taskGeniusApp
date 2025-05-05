@@ -1,0 +1,121 @@
+/* Contenedor principal de notificaciones - posicionado arriba a la derecha */
+.notificationLane {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    width: 100%;
+  }
+  
+  /* Estilo base para todas las notificaciones */
+  .notification {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: white;
+    animation: fadeIn 0.3s ease-in-out, fadeOut 0.5s ease-in-out 1.5s forwards;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  
+  .notification:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Estilos para los diferentes tipos de notificaciones */
+  .success {
+    background-color: #10b981;
+    border-left: 4px solid #047857;
+  }
+  
+  .error {
+    background-color: #ef4444;
+    border-left: 4px solid #b91c1c;
+  }
+  
+  .warning {
+    background-color: #f59e0b;
+    border-left: 4px solid #b45309;
+  }
+  
+  .info {
+    background-color: #3b82f6;
+    border-left: 4px solid #1d4ed8;
+  }
+  
+  /* Estilo para el mensaje */
+  .message {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    flex: 1;
+    padding-right: 10px;
+    word-break: break-word;
+  }
+  
+  /* Estilo para el botón de cerrar */
+  .closeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s, background-color 0.2s;
+  }
+  
+  .closeButton:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .closeButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 640px) {
+    .notificationLane {
+      max-width: calc(100% - 40px);
+      width: calc(100% - 40px);
+    }
+  }
