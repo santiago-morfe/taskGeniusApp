@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getTaskAdvice } from '../api/geniusService';
 import styles from './GeniusAdvice.module.css';
+import { FaArrowsRotate } from "react-icons/fa6";
 
 const GeniusAdvice: React.FC = () => {
   const [advice, setAdvice] = useState<string | null>(null);
@@ -41,7 +42,10 @@ const GeniusAdvice: React.FC = () => {
         onClick={fetchAdvice} 
         disabled={loading || countdown > 0}
       >
-        {loading ? 'Cargando consejo...' : countdown > 0 ? `Espera ${countdown}s` : 'Obtener consejo'}
+        {loading &&  'Cargando consejo...'}
+        {countdown > 0 && `Espera ${countdown}s`}
+        {((!loading && countdown === 0) && (advice === null )) && 'Obtener consejo'}
+        {((!loading && countdown === 0) && (advice != null ))&& <FaArrowsRotate className={styles.icon} />}
       </button>
     </div>
   );

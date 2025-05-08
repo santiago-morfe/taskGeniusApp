@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CreateTaskDto } from '../types/Task';
 import { useTask } from '../hooks/useTask';
 import { useNotification } from '../hooks/useNotification';
 import { getTitleSuggestion, formatDescription } from '../api/geniusService';
 import { LoadingBlurCard } from './LoadingBlurCard';
+import { FaPlus } from "react-icons/fa";
+import { MdEditNote } from "react-icons/md";
+import { RiAiGenerateText } from "react-icons/ri";
 import styles from './FormTask.module.css';
 
 const FormTask = () => {
@@ -18,6 +21,26 @@ const FormTask = () => {
     const [showForm, setShowForm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [titleCooldown, setTitleCooldown] = useState(0);
+    const [descriptionCooldown, setDescriptionCooldown] = useState(0);
+
+    useEffect(() => {
+        let titleTimer: NodeJS.Timeout;
+        let descriptionTimer: NodeJS.Timeout;
+
+        if (titleCooldown > 0) {
+            titleTimer = setTimeout(() => setTitleCooldown(titleCooldown - 1), 1000);
+        }
+
+        if (descriptionCooldown > 0) {
+            descriptionTimer = setTimeout(() => setDescriptionCooldown(descriptionCooldown - 1), 1000);
+        }
+
+        return () => {
+            clearTimeout(titleTimer);
+            clearTimeout(descriptionTimer);
+        };
+    }, [titleCooldown, descriptionCooldown]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setTask({ ...task, [e.target.name]: e.target.value });
@@ -55,12 +78,13 @@ const FormTask = () => {
     };
 
     const handleGetTitleSuggestion = async () => {
-        if (task.description) {
+        if (task.description && titleCooldown === 0) {
             try {
                 setLoading(true);
                 const response = await getTitleSuggestion(task.description);
                 setTask({ ...task, title: response.title || '' });
                 addNotification('Título generado', 'success');
+                setTitleCooldown(10);
             } catch (error) {
                 addNotification('Error al generar título', 'error');
                 console.error('Error fetching title suggestion:', error);
@@ -71,12 +95,13 @@ const FormTask = () => {
     };
 
     const handleFormatDescription = async () => {
-        if (task.description) {
+        if (task.description && descriptionCooldown === 0) {
             try {
                 setLoading(true);
                 const response = await formatDescription(task.description);
                 setTask({ ...task, description: response.description || '' });
                 addNotification('Descripción formateada', 'success');
+                setDescriptionCooldown(10);
             } catch (error) {
                 addNotification('Error al formatear descripción', 'error');
                 console.error('Error formatting description:', error);
@@ -88,131 +113,132 @@ const FormTask = () => {
 
     if (!showForm) {
         return (
-            <button 
-                className={styles.addButton}
+            <button
+                className={styles.newTaskButton}
                 onClick={() => setShowForm(true)}
                 aria-label="Crear nueva tarea"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-                </svg>
+                <FaPlus />
                 Nueva tarea
             </button>
         );
     }
 
     return (
-        <div className={styles.taskFormContainer}>
-            <LoadingBlurCard loading={loading}>
-                <h2 className={styles.formLabel}>Nueva tarea</h2>
-                <form onSubmit={handleSubmit} className={styles.form} aria-label="Formulario de nueva tarea">
-                    <div className={styles.formGroup}>
-                        <label htmlFor="task-title" className={styles.formLabel}>Título</label>
-                        <div className="flex items-center gap-2">
-                            <input
-                                id="task-title"
-                                type="text"
-                                name="title"
-                                value={task.title || ''}
-                                onChange={handleChange}
-                                placeholder="Título de la tarea"
-                                className={styles.formInput}
-                                required
-                                aria-required="true"
-                            />
-                            {task.description && (
-                                <button 
-                                    type="button" 
-                                    className={styles.actionButton}
-                                    onClick={handleGetTitleSuggestion}
-                                    aria-label="Generar título desde descripción"
-                                    title="Generar desde descripción"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-                                    </svg>
-                                    Generar desde descripción
-                                </button>
+        <div className={styles.backdrop}>
+            <div className={styles.container}>
+                <LoadingBlurCard loading={loading}>
+                    <h2 className={styles.title}>Nueva tarea</h2>
+                    <form className={styles.form} onSubmit={handleSubmit} aria-label="Formulario de nueva tarea">
+                        <div className={styles.formGroup}>
+                            <label className={styles.label} htmlFor="task-title">Título</label>
+                            <div className={styles.inputContainer}>
+                                <input
+                                    id="task-title"
+                                    className={styles.input}
+                                    type="text"
+                                    name="title"
+                                    value={task.title || ''}
+                                    onChange={handleChange}
+                                    placeholder="Título de la tarea"
+                                    required
+                                    aria-required="true"
+                                />
+                                {task.description && (
+                                    <button
+                                        type="button"
+                                        className={styles.inputButton}
+                                        onClick={handleGetTitleSuggestion}
+                                        disabled={titleCooldown > 0}
+                                        aria-label="Generar título desde descripción"
+                                        title="Generar desde descripción"
+                                    >
+                                        {titleCooldown > 0 ? <span className={styles.cooldownText}>{titleCooldown}s</span> : <RiAiGenerateText />}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label className={styles.label} htmlFor="task-description">Descripción</label>
+                            <div className={styles.textareaContainer}>
+                                <textarea
+                                    id="task-description"
+                                    className={styles.textarea}
+                                    name="description"
+                                    value={task.description || ''}
+                                    onChange={handleChange}
+                                    placeholder="Describe la tarea en detalle"
+                                    aria-label="Descripción de la tarea"
+                                ></textarea>
+                                {task.description && (
+                                    <button
+                                        type="button"
+                                        className={styles.inputButton}
+                                        onClick={handleFormatDescription}
+                                        disabled={descriptionCooldown > 0}
+                                        aria-label="Reformatear descripción"
+                                        title="Reformatear descripción"
+                                    >
+                                        {descriptionCooldown > 0 ? <span className={styles.cooldownText}>{descriptionCooldown}s</span> : <MdEditNote />}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <div className={styles.checkboxGroup}>
+                                <input
+                                    id="enable-date"
+                                    type="checkbox"
+                                    className={styles.checkbox}
+                                    checked={showDatePicker}
+                                    onChange={() => setShowDatePicker(!showDatePicker)}
+                                    aria-label="Activar fecha de vencimiento"
+                                />
+                                <label className={styles.label} htmlFor="enable-date">
+                                    Agregar fecha de vencimiento
+                                </label>
+                            </div>
+
+                            {showDatePicker && (
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label} htmlFor="task-due-date">Fecha de vencimiento</label>
+                                    <input
+                                        id="task-due-date"
+                                        className={styles.dateInput}
+                                        type="date"
+                                        name="dueDate"
+                                        value={task.dueDate || ''}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        onChange={handleChange}
+                                        aria-label="Fecha de vencimiento de la tarea"
+                                    />
+                                </div>
                             )}
                         </div>
-                    </div>
 
-                    <div className={styles.formGroup}>
-                        <label htmlFor="task-description" className={styles.formLabel}>Descripción</label>
-                        <textarea
-                            id="task-description"
-                            name="description"
-                            value={task.description || ''}
-                            onChange={handleChange}
-                            placeholder="Describe la tarea en detalle"
-                            className={styles.formTextarea}
-                            aria-label="Descripción de la tarea"
-                        ></textarea>
-                        {task.description && (
-                            <button 
-                                type="button" 
-                                className={styles.actionButton}
-                                onClick={handleFormatDescription}
-                                aria-label="Reformatear descripción"
-                                title="Reformatear descripción"
+                        <div className={styles.buttonGroup}>
+                            <button
+                                type="button"
+                                className={`${styles.button} ${styles.secondaryButton}`}
+                                onClick={handleCancel}
+                                aria-label="Cancelar creación de tarea"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fillRule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
-                                </svg>
-                                Reformatear
+                                Cancelar
                             </button>
-                        )}
-                    </div>
-
-                    <div className={styles.dateToggle}>
-                        <label className={styles.toggleSwitch}>
-                            <input 
-                                type="checkbox" 
-                                checked={showDatePicker}
-                                onChange={() => setShowDatePicker(!showDatePicker)}
-                                aria-label="Activar fecha de vencimiento"
-                            />
-                            <span className={styles.slider}></span>
-                        </label>
-                        <span className={styles.toggleLabel}>Agregar fecha de vencimiento</span>
-                    </div>
-
-                    {showDatePicker && (
-                        <div className={styles.formGroup}>
-                            <label htmlFor="task-due-date" className={styles.formLabel}>Fecha de vencimiento</label>
-                            <input
-                                id="task-due-date"
-                                type="date"
-                                name="dueDate"
-                                value={task.dueDate || ''}
-                                min={new Date().toISOString().split('T')[0]}
-                                onChange={handleChange}
-                                className={styles.formInput}
-                                aria-label="Fecha de vencimiento de la tarea"
-                            />
+                            <button
+                                type="submit"
+                                className={`${styles.button} ${styles.primaryButton}`}
+                                disabled={!task.title}
+                                aria-label="Crear tarea"
+                            >
+                                Crear tarea
+                            </button>
                         </div>
-                    )}
-
-                    <div className={styles.buttonGroup}>
-                        <button 
-                            type="button" 
-                            className={styles.cancelButton}
-                            onClick={handleCancel}
-                            aria-label="Cancelar creación de tarea"
-                        >
-                            Cancelar
-                        </button>
-                        <button 
-                            type="submit" 
-                            className={styles.submitButton}
-                            disabled={!task.title}
-                            aria-label="Crear tarea"
-                        >
-                            Crear tarea
-                        </button>
-                    </div>
-                </form>
-            </LoadingBlurCard>
+                    </form>
+                </LoadingBlurCard>
+            </div>
         </div>
     );
 };
