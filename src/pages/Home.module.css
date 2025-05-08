@@ -4,8 +4,11 @@
   align-items: center;
   padding: 0;
   background-color: #f9fafb;
-  min-height: 100vh;
-  justify-content: center;
+  min-height: 100%;
+  min-width: 100%;
+  /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+  padding: 2rem;
+  justify-content: start;
   /* Centra el contenido verticalmente */
 }
 
@@ -49,4 +52,11 @@
   /* Centra horizontalmente */
   box-sizing: border-box;
   /* Asegura que el padding no afecte el ancho total */
+}
+
+/* a resolucion baja se elimina el pading horizontal */
+@media (max-width: 768px) {
+  .mainContainer {
+    padding: 1rem 0;
+  }
 }

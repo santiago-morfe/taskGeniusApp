@@ -9,9 +9,6 @@
 
 .taskListSection {
     flex: 1;
-    min-width: 300px;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .taskDetailSection {
@@ -120,82 +117,26 @@
     }
 }
 
-/* Responsive layout */
-@media (max-width: 1024px) {
-    .taskContainer {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+/* @media (max-width: 480px) {
 
-    .taskListSection {
-        max-width: 90%;
-        margin: 0 auto;
-    }
-
-    .taskDetailSection {
-        max-width: 90%;
-        margin: 0 auto;
-    }
-}
+} */
 
 @media (max-width: 768px) {
     .taskContainer {
         flex-direction: column;
         gap: 1rem;
-    }
-
-    .taskListSection {
-        max-width: 100%;
-        margin-bottom: 1.5rem;
-    }
-
-    .taskDetailSection {
         max-width: 100%;
     }
-}
 
-@media (max-width: 480px) {
+    .taskListSection,
+    .taskDetailSection,
+    .taskList {
+        max-width: 100%;
+        width: 100%;
+    }
     .taskHeader {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .taskTitle {
-        font-size: 1.25rem;
-    }
-
-    .taskCount {
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-    }
-
-    .emptyState {
-        padding: 2rem 0.5rem;
-    }
-
-    .emptyStateText {
-        font-size: 0.875rem;
-    }
-
-    .emptyStateButton {
-        font-size: 0.75rem;
-        padding: 0.5rem 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .taskContainer {
-        flex-direction: column;
-    }
-
-    .taskListSection {
         max-width: 100%;
-        margin-bottom: 2rem;
-    }
-
-    .taskDetailSection {
-        max-width: 100%;
+        width: 100%;
     }
 }
 
