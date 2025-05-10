@@ -72,6 +72,7 @@ const ItemTask: React.FC<ItemTaskProps> = ({ task }) => {
                     onClick={task.isCompleted ? handleUnComplete : handleComplete}
                     aria-label={task.isCompleted ? "Marcar como incompleta" : "Marcar como completada"}
                     title={task.isCompleted ? "Desmarcar tarea" : "Completar tarea"}
+                    disabled={!!isFocused} // Deshabilitar el botón si está en foco
                 >
                     {task.isCompleted ?
                         <AiFillCheckCircle className={styles.completeIcon} /> :
@@ -79,10 +80,10 @@ const ItemTask: React.FC<ItemTaskProps> = ({ task }) => {
                 </button>
 
                 <span
-                    className={styles.taskTitle}
-                    onClick={handleTaskFocus}
+                    className={`${styles.taskTitle} ${isFocused ? styles.disabled : ''}`} // Añadir clase si está en foco
+                    onClick={!isFocused ? handleTaskFocus : undefined} // Evitar clics si está en foco
                     role="button"
-                    tabIndex={0}
+                    tabIndex={isFocused ? -1 : 0} // Deshabilitar tabulación si está en foco
                     aria-pressed={isFocused ? "true" : "false"}
                 >
                     {task.title || "Sin título"}
@@ -93,6 +94,7 @@ const ItemTask: React.FC<ItemTaskProps> = ({ task }) => {
                     onClick={handleDelete}
                     aria-label="Eliminar tarea"
                     title="Eliminar tarea"
+                    disabled={!!isFocused} 
                 >
                     <AiFillDelete className={styles.deleteIcon} />
                 </button>

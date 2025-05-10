@@ -41,6 +41,7 @@ const ListTask = () => {
                 <div className={styles.taskHeader}>
                     <h2 className={styles.taskTitle}>Mis tareas</h2>
                     <span className={styles.taskCount}>{tasks.length}</span>
+                    <FormTask />
                 </div>
                 <div className={styles.taskList}>
                     {tasks.map((task: TaskDto) => (

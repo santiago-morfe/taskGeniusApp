@@ -70,3 +70,55 @@ export const formatDescription = async (description: string): Promise<Descriptio
         throw error;
     }
 };
+
+export const askTaskQuestion = async (question: string): Promise<TaskAdviceResponseDto> => {
+    if (!question || question.trim() === '') {
+        throw new Error('La pregunta no puede estar vacía.');
+    }
+
+    try {
+         const response = await fetch(`${baseUrl}/genius/taskQuestion/${question}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+            } 
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to answer task question');
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error answering task question:', error);
+        throw error;
+    }
+};
+
+export const getSpecificTaskAdvice = async (taskId: string): Promise<TaskAdviceResponseDto> => {
+    if (!taskId || taskId.trim() === '') {
+        throw new Error('El ID de la tarea no puede estar vacío.');
+    }
+
+    try {
+        const response = await fetch(`${baseUrl}/genius/taskAdvice/${taskId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+            },
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to fetch specific task advice');
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error fetching specific task advice:', error);
+        throw error;
+    }
+};
+
